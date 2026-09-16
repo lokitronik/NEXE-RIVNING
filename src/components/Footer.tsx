@@ -79,7 +79,7 @@ export const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm text-slate-200 hover:text-white group transition-colors"
                 >
-                  <span className="font-semibold text-white">NEXE SANERING</span>
+                  <span className="font-semibold text-white">NEXE SPECIALSANERING</span>
                   <span className="text-slate-400 group-hover:text-slate-200 text-xs">
                     – Specialsanering & miljö
                   </span>
