@@ -66,7 +66,7 @@ export const Contact: React.FC = () => {
   return (
     <section
       id="kontakt"
-      className="bg-[#002B49] text-white py-20 sm:py-28 border-t border-[#001D33] scroll-mt-16"
+      className="bg-[#002B49] text-white py-20 sm:py-28 border-t border-[#001D33] scroll-mt-24"
       aria-labelledby="contact-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

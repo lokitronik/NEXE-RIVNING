@@ -4,9 +4,9 @@ import { NexeLogo } from './NexeLogo';
 
 export const Footer: React.FC = () => {
   const navLinks = [
+    { label: 'Om oss', href: '#om-oss' },
     { label: 'Tjänster', href: '#tjanster' },
     { label: 'Så arbetar vi', href: '#sa-arbetar-vi' },
-    { label: 'Om oss', href: '#om-oss' },
     { label: 'Kontakt', href: '#kontakt' },
   ];
 

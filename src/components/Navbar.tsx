@@ -19,9 +19,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
   }, []);
 
   const navLinks = [
+    { label: 'Om oss', href: '#om-oss' },
     { label: 'Tjänster', href: '#tjanster' },
     { label: 'Så arbetar vi', href: '#sa-arbetar-vi' },
-    { label: 'Om oss', href: '#om-oss' },
     { label: 'Kontakt', href: '#kontakt' },
   ];
 
@@ -39,26 +39,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
       id="site-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80 py-3.5'
-          : 'bg-white border-b border-slate-200 py-4 sm:py-5'
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80 py-3 sm:py-3.5'
+          : 'bg-white border-b border-slate-200 py-3.5 sm:py-4.5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-3 sm:gap-4">
           {/* Brand Logo */}
           <a
             href="#"
             id="brand-home-link"
-            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#002B49] rounded-sm py-1"
+            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#002B49] rounded-sm py-1 shrink-0"
             aria-label="NEXE RIVNING Startsida"
           >
             <NexeLogo variant="dark" size="md" />
           </a>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation (visible on md and up) */}
           <nav
             id="desktop-navigation"
-            className="hidden md:flex items-center gap-8"
+            className="hidden md:flex items-center gap-6 lg:gap-8"
             aria-label="Huvudnavigation"
           >
             {navLinks.map((link) => (
@@ -73,8 +73,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
             ))}
           </nav>
 
-          {/* Header Action Button (Desktop) */}
-          <div className="hidden sm:flex items-center">
+          {/* Header Action Button (visible on md and up) */}
+          <div className="hidden md:flex items-center">
             <button
               id="header-quote-btn"
               type="button"
@@ -86,8 +86,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex sm:hidden items-center gap-2">
+          {/* Mobile Menu Button (visible on screens below md) */}
+          <div className="flex md:hidden items-center">
             <button
               id="mobile-menu-toggle"
               type="button"
@@ -110,9 +110,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
       {mobileMenuOpen && (
         <div
           id="mobile-menu-container"
-          className="sm:hidden bg-white border-b border-slate-200 shadow-xl px-4 pt-4 pb-6 mt-3 space-y-4"
+          className="md:hidden bg-white border-b border-slate-200 shadow-xl px-4 pt-4 pb-6 mt-3 space-y-4"
         >
-          <nav className="flex flex-col space-y-2" aria-label="Mobil navigation">
+          <nav className="flex flex-col space-y-1.5" aria-label="Mobil navigation">
             {navLinks.map((link) => (
               <a
                 key={link.label}
