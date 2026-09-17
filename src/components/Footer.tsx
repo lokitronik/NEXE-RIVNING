@@ -21,40 +21,48 @@ export const Footer: React.FC = () => {
   return (
     <footer
       id="site-footer"
-      className="bg-[#001D33] text-slate-300 py-16 border-t border-white/10"
+      className="bg-[#001D33] text-slate-300 py-10 sm:py-12 border-t border-white/10"
       aria-label="Webbplatsens sidfot"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 pb-8 border-b border-white/10 items-start">
           {/* Brand info */}
           <div className="md:col-span-5 flex flex-col items-start">
             <a
               href="#"
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm mb-4"
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-sm mb-3"
               aria-label="NEXE RIVNING Startsida"
             >
-              <NexeLogo variant="light" size="md" />
+              <NexeLogo variant="light" size="sm" />
             </a>
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed mb-6">
+            <p className="text-xs sm:text-sm text-slate-400 max-w-sm leading-relaxed mb-3">
               Professionell och omsorgsfull invändig rivning, köksdemontering och förberedande arbete för bostäder och kommersiella lokaler.
             </p>
-            <div className="text-xs text-slate-400 font-mono">
-              <span>NEXE RIVNING · Rivning med omtanke</span>
+            <div className="text-xs text-slate-400">
+              <a
+                href="https://lokitronik.github.io/NEXE-GROUP-AB/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-slate-300 hover:text-white transition-colors underline decoration-slate-600 underline-offset-2"
+              >
+                <span>NEXE RIVNING · En del av NEXE GROUP AB</span>
+                <ExternalLink className="w-3 h-3 text-slate-400" aria-hidden="true" />
+              </a>
             </div>
           </div>
 
           {/* Navigation */}
           <div className="md:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-3">
               Navigation
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className="text-sm text-slate-300 hover:text-white transition-colors"
+                    className="text-xs sm:text-sm text-slate-300 hover:text-white transition-colors"
                   >
                     {link.label}
                   </a>
@@ -65,19 +73,30 @@ export const Footer: React.FC = () => {
 
           {/* NEXE Group Divisions */}
           <div className="md:col-span-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-3">
               NEXE GROUP
             </h4>
-            <p className="text-xs text-slate-400 leading-relaxed mb-4">
-              NEXE RIVNING är en del av NEXE GROUP. Utforska även våra övriga divisioner:
-            </p>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
+              <li>
+                <a
+                  href="https://lokitronik.github.io/NEXE-GROUP-AB/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-slate-200 hover:text-white group transition-colors"
+                >
+                  <span className="font-semibold text-white">NEXE GROUP AB</span>
+                  <span className="text-slate-400 group-hover:text-slate-200 text-xs">
+                    – Moderbolag
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-white" aria-hidden="true" />
+                </a>
+              </li>
               <li>
                 <a
                   href="https://lokitronik.github.io/NEXE-SANERING/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-slate-200 hover:text-white group transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-slate-200 hover:text-white group transition-colors"
                 >
                   <span className="font-semibold text-white">NEXE SPECIALSANERING</span>
                   <span className="text-slate-400 group-hover:text-slate-200 text-xs">
@@ -91,7 +110,7 @@ export const Footer: React.FC = () => {
                   href="https://lokitronik.github.io/NEXE-SOLAR/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-slate-200 hover:text-white group transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-slate-200 hover:text-white group transition-colors"
                 >
                   <span className="font-semibold text-white">NEXE SOLAR</span>
                   <span className="text-slate-400 group-hover:text-slate-200 text-xs">
@@ -105,11 +124,20 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <p>
-            © {new Date().getFullYear()} NEXE RIVNING. En del av NEXE GROUP AB. Alla rättigheter förbehållna.
+            © {new Date().getFullYear()} NEXE RIVNING. En del av{' '}
+            <a
+              href="https://lokitronik.github.io/NEXE-GROUP-AB/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-300 hover:text-white underline decoration-slate-600 underline-offset-2"
+            >
+              NEXE GROUP AB
+            </a>
+            . Alla rättigheter förbehållna.
           </p>
-          <p className="text-slate-400">
+          <p className="text-slate-500 hidden sm:block">
             Invändig rivning med precision, ordning och hänsyn.
           </p>
         </div>
