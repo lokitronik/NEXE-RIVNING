@@ -153,20 +153,6 @@ export const Contact: React.FC = () => {
                 </button>
               </div>
             ) : (
-                      <span>Kopiera text</span>
-                    )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setSubmittedStatus(false)}
-                    className="inline-flex items-center justify-center px-5 py-3 border border-white/20 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors"
-                  >
-                    Redigera
-                  </button>
-                </div>
-              </div>
-            ) : (
               <form
                 id="inquiry-form"
                 onSubmit={handleSubmit}
