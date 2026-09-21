@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Send, AlertCircle, Check, Mail } from 'lucide-react';
 import type { ContactFormData } from '../types';
 
@@ -14,7 +14,6 @@ export const Contact: React.FC = () => {
   const [submittedStatus, setSubmittedStatus] = useState<boolean>(false);
   const [isSending, setIsSending] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const sendingRef = useRef(false);
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof ContactFormData, string>> = {};
@@ -40,37 +39,36 @@ export const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (sendingRef.current) return;
     setSubmitError('');
     if (!validate()) return;
 
-    sendingRef.current = true;
     setIsSending(true);
+
     try {
+      // Usar FormData nativo sin librerías externas
+      const formPayload = new FormData();
+      formPayload.append('name', formData.name.trim());
+      formPayload.append('email', formData.email.trim());
+      formPayload.append('phone', formData.phone.trim());
+      formPayload.append('message', formData.projectDescription.trim());
+      formPayload.append('_subject', 'Ny förfrågan – NEXE RIVNING');
+
       const response = await fetch('https://formspree.io/f/xkjgrjkb', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          phone: formData.phone.trim(),
-          message: formData.projectDescription.trim(),
-          subject: 'Ny förfrågan – NEXE RIVNING',
-          source: 'NEXE RIVNING',
-          page: window.location.href,
-        }),
+        headers: {
+          Accept: 'application/json',
+        },
+        body: formPayload,
       });
-      if (!response.ok) {
-        setSubmitError(response.status === 429
-          ? 'Formuläret kan inte ta emot fler förfrågningar just nu. Kontakta oss via kontakt@nexegroup.se.'
-          : 'Förfrågan kunde inte skickas. Försök igen eller mejla kontakt@nexegroup.se.');
-        return;
+
+      if (response.ok) {
+        setSubmittedStatus(true);
+      } else {
+        setSubmitError('Förfrågan kunde inte skickas. Försök igen eller mejla direkt till kontakt@nexegroup.se.');
       }
-      setSubmittedStatus(true);
     } catch {
-      setSubmitError('Vi kunde inte bekräfta att förfrågan skickades. Kontrollera din anslutning eller mejla kontakt@nexegroup.se.');
+      setSubmitError('Nätverksfel. Kontrollera din anslutning eller mejla kontakt@nexegroup.se.');
     } finally {
-      sendingRef.current = false;
       setIsSending(false);
     }
   };
@@ -93,7 +91,6 @@ export const Contact: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Heading and Closing Statement */}
           <div className="lg:col-span-5">
             <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-slate-300 mb-4">
               Kontakt
@@ -126,7 +123,6 @@ export const Contact: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Clean, Honest Contact Form */}
           <div className="lg:col-span-7 bg-[#001D33] p-7 sm:p-10 rounded-xl border border-white/10 shadow-2xl">
             {submittedStatus ? (
               <div role="status" aria-live="polite" className="space-y-6">
@@ -161,129 +157,126 @@ export const Contact: React.FC = () => {
                 className="space-y-5"
               >
                 <fieldset disabled={isSending} className="space-y-5 min-w-0 border-0 p-0 m-0">
-                {/* Namn */}
-                <div>
-                  <label
-                    htmlFor="contact-name"
-                    className="block text-xs font-semibold uppercase tracking-wider text-slate-200 mb-2"
-                  >
-                    Namn
-                  </label>
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    autoComplete="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 bg-white/10 border ${
-                      errors.name ? 'border-red-400' : 'border-white/20'
-                    } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm`}
-                    placeholder="Ditt för- och efternamn"
-                  />
-                  {errors.name && (
-                    <p className="mt-1.5 text-xs text-red-300 flex items-center gap-1.5">
-                      <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                      <span>{errors.name}</span>
-                    </p>
-                  )}
-                </div>
-
-                {/* E-post and Telefon in 2 columns on larger screens */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label
-                      htmlFor="contact-email"
+                      htmlFor="contact-name"
                       className="block text-xs font-semibold uppercase tracking-wider text-slate-200 mb-2"
                     >
-                      E-post
+                      Namn
                     </label>
                     <input
-                      id="contact-email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      value={formData.email}
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      autoComplete="name"
+                      value={formData.name}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 bg-white/10 border ${
-                        errors.email ? 'border-red-400' : 'border-white/20'
+                        errors.name ? 'border-red-400' : 'border-white/20'
                       } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm`}
-                      placeholder="din.epost@exempel.se"
+                      placeholder="Ditt för- och efternamn"
                     />
-                    {errors.email && (
+                    {errors.name && (
                       <p className="mt-1.5 text-xs text-red-300 flex items-center gap-1.5">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                        <span>{errors.email}</span>
+                        <span>{errors.name}</span>
                       </p>
                     )}
                   </div>
 
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                      <label
+                        htmlFor="contact-email"
+                        className="block text-xs font-semibold uppercase tracking-wider text-slate-200 mb-2"
+                      >
+                        E-post
+                      </label>
+                      <input
+                        id="contact-email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3 bg-white/10 border ${
+                          errors.email ? 'border-red-400' : 'border-white/20'
+                        } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm`}
+                        placeholder="din.epost@exempel.se"
+                      />
+                      {errors.email && (
+                        <p className="mt-1.5 text-xs text-red-300 flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                          <span>{errors.email}</span>
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="contact-phone"
+                        className="block text-xs font-semibold uppercase tracking-wider text-slate-200 mb-2"
+                      >
+                        Telefon
+                      </label>
+                      <input
+                        id="contact-phone"
+                        name="phone"
+                        type="tel"
+                        autoComplete="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className={`w-full px-4 py-3 bg-white/10 border ${
+                          errors.phone ? 'border-red-400' : 'border-white/20'
+                        } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm`}
+                        placeholder="Ditt telefonnummer"
+                      />
+                      {errors.phone && (
+                        <p className="mt-1.5 text-xs text-red-300 flex items-center gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                          <span>{errors.phone}</span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
                   <div>
                     <label
-                      htmlFor="contact-phone"
+                      htmlFor="contact-description"
                       className="block text-xs font-semibold uppercase tracking-wider text-slate-200 mb-2"
                     >
-                      Telefon
+                      Beskriv ditt projekt
                     </label>
-                    <input
-                      id="contact-phone"
-                      name="phone"
-                      type="tel"
-                      autoComplete="tel"
-                      value={formData.phone}
+                    <textarea
+                      id="contact-description"
+                      name="projectDescription"
+                      rows={4}
+                      value={formData.projectDescription}
                       onChange={handleChange}
                       className={`w-full px-4 py-3 bg-white/10 border ${
-                        errors.phone ? 'border-red-400' : 'border-white/20'
-                      } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm`}
-                      placeholder="Ditt telefonnummer"
+                        errors.projectDescription ? 'border-red-400' : 'border-white/20'
+                      } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm resize-none`}
+                      placeholder="Beskriv vad som ska rivas eller förberedas, bostadstyp och eventuella särskilda önskemål..."
                     />
-                    {errors.phone && (
+                    {errors.projectDescription && (
                       <p className="mt-1.5 text-xs text-red-300 flex items-center gap-1.5">
                         <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                        <span>{errors.phone}</span>
+                        <span>{errors.projectDescription}</span>
                       </p>
                     )}
                   </div>
-                </div>
 
-                {/* Beskriv ditt projekt */}
-                <div>
-                  <label
-                    htmlFor="contact-description"
-                    className="block text-xs font-semibold uppercase tracking-wider text-slate-200 mb-2"
-                  >
-                    Beskriv ditt projekt
-                  </label>
-                  <textarea
-                    id="contact-description"
-                    name="projectDescription"
-                    rows={4}
-                    value={formData.projectDescription}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 bg-white/10 border ${
-                      errors.projectDescription ? 'border-red-400' : 'border-white/20'
-                    } rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white transition-colors text-sm resize-none`}
-                    placeholder="Beskriv vad som ska rivas eller förberedas, bostadstyp och eventuella särskilda önskemål..."
-                  />
-                  {errors.projectDescription && (
-                    <p className="mt-1.5 text-xs text-red-300 flex items-center gap-1.5">
-                      <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                      <span>{errors.projectDescription}</span>
-                    </p>
-                  )}
-                </div>
-
-                {/* Submit button */}
-                <div className="pt-2">
-                  <button
-                    id="contact-submit-btn"
-                    type="submit"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-white text-[#002B49] hover:bg-slate-100 font-display text-xs font-bold uppercase tracking-wider rounded-md transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                  >
-                    <span>{isSending ? 'Skickar…' : 'Skicka förfrågan'}</span>
-                    <Send className="w-3.5 h-3.5" aria-hidden="true" />
-                  </button>
-                </div>
+                  <div className="pt-2">
+                    <button
+                      id="contact-submit-btn"
+                      type="submit"
+                      disabled={isSending}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-white text-[#002B49] hover:bg-slate-100 font-display text-xs font-bold uppercase tracking-wider rounded-md transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
+                      <span>{isSending ? 'Skickar…' : 'Skicka förfrågan'}</span>
+                      <Send className="w-3.5 h-3.5" aria-hidden="true" />
+                    </button>
+                  </div>
                 </fieldset>
                 {submitError && (
                   <p role="alert" className="p-4 rounded-md border border-red-400/40 bg-red-400/10 text-sm text-red-200">
