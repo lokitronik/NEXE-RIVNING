@@ -50,7 +50,7 @@ export const About: React.FC<AboutProps> = ({ onQuoteClick }) => {
             <p className="text-xs font-medium text-slate-500 tracking-wide mb-8">
               NEXE RIVNING är en del av{' '}
               <a
-                href="https://lokitronik.github.io/NEXE-GROUP-AB/"
+                href="https://nexegroup.se"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-700 hover:text-[#002B49] underline decoration-slate-300 underline-offset-2 transition-colors"

@@ -44,19 +44,29 @@ export const Footer: React.FC = () => {
               och förberedande arbete för bostäder och kommersiella lokaler.
             </p>
 
-            <div className="text-xs text-slate-400">
-              <a
-                href="https://lokitronik.github.io/NEXE-GROUP-AB/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-slate-300 hover:text-white transition-colors underline decoration-slate-600 underline-offset-2"
-              >
-                <span>NEXE RIVNING · En del av NEXE GROUP AB</span>
-                <ExternalLink
-                  className="w-3 h-3 text-slate-400"
-                  aria-hidden="true"
-                />
-              </a>
+            <div className="text-xs text-slate-400 space-y-1.5">
+              <div>
+                <a
+                  href="https://nexegroup.se"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-slate-300 hover:text-white transition-colors underline decoration-slate-600 underline-offset-2"
+                >
+                  <span>NEXE RIVNING · En del av NEXE GROUP AB</span>
+                  <ExternalLink
+                    className="w-3 h-3 text-slate-400"
+                    aria-hidden="true"
+                  />
+                </a>
+              </div>
+              <div>
+                <a
+                  href="mailto:kontakt@nexegroup.se"
+                  className="text-slate-300 hover:text-white transition-colors underline decoration-slate-600 underline-offset-2"
+                >
+                  kontakt@nexegroup.se
+                </a>
+              </div>
             </div>
           </div>
 
@@ -87,7 +97,7 @@ export const Footer: React.FC = () => {
           <p>
             © {new Date().getFullYear()} NEXE RIVNING. En del av{' '}
             <a
-              href="https://lokitronik.github.io/NEXE-GROUP-AB/"
+              href="https://nexegroup.se"
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-300 hover:text-white underline decoration-slate-600 underline-offset-2"

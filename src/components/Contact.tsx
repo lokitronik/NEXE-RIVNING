@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, AlertCircle, Check } from 'lucide-react';
+import { Send, AlertCircle, Check, Mail } from 'lucide-react';
 import { ContactFormData } from '../types';
 
 export const Contact: React.FC = () => {
@@ -85,10 +85,22 @@ export const Contact: React.FC = () => {
             <p className="text-slate-200 text-lg sm:text-xl leading-relaxed mb-8">
               Berätta vad du behöver hjälp med, så tar vi nästa steg tillsammans.
             </p>
-            <div className="p-5 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-300">
+            <div className="p-5 rounded-lg bg-white/5 border border-white/10 text-sm text-slate-300 space-y-4">
               <p className="leading-relaxed">
                 Fyll i formuläret med dina uppgifter och en kort beskrivning av ditt projekt så återkommer vi så snart som möjligt.
               </p>
+              <div className="pt-3 border-t border-white/10 text-xs">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
+                  <span className="text-slate-400">E-post:</span>
+                  <a
+                    href="mailto:kontakt@nexegroup.se"
+                    className="text-white hover:underline underline-offset-2 font-medium"
+                  >
+                    kontakt@nexegroup.se
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -106,7 +118,7 @@ export const Contact: React.FC = () => {
                     Sammanställning av din förfrågan
                   </h3>
                   <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                    Formulärets uppgifter har validerats. Eftersom detta är en förhandsvisning utan ansluten e-postserver kan du kopiera uppgifterna nedan för att skicka dem direkt.
+                    Formulärets uppgifter har validerats. Du kan skicka dem direkt till <a href="mailto:kontakt@nexegroup.se" className="text-white underline font-semibold">kontakt@nexegroup.se</a> eller kopiera sammanställningen nedan.
                   </p>
                   <div className="bg-black/25 p-4 rounded-md text-xs font-mono text-slate-200 space-y-1.5 border border-white/10">
                     <div>
@@ -126,27 +138,39 @@ export const Contact: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                  <a
+                    href={`mailto:kontakt@nexegroup.se?subject=${encodeURIComponent(
+                      `Förfrågan rivning - ${formData.name}`
+                    )}&body=${encodeURIComponent(
+                      `Namn: ${formData.name}\nE-post: ${formData.email}\nTelefon: ${formData.phone}\n\nProjektbeskrivning:\n${formData.projectDescription}`
+                    )}`}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-[#002B49] text-xs font-bold uppercase tracking-wider rounded-md hover:bg-slate-100 transition-colors"
+                  >
+                    <Mail className="w-4 h-4" aria-hidden="true" />
+                    <span>Öppna e-post</span>
+                  </a>
+
                   <button
                     type="button"
                     onClick={handleCopySummary}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-[#002B49] text-xs font-bold uppercase tracking-wider rounded-md hover:bg-slate-100 transition-colors"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/15 text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-white/20 transition-colors border border-white/20"
                   >
                     {copiedSummary ? (
                       <>
-                        <Check className="w-4 h-4 text-emerald-600" aria-hidden="true" />
+                        <Check className="w-4 h-4 text-emerald-400" aria-hidden="true" />
                         <span>Kopierat!</span>
                       </>
                     ) : (
-                      <span>Kopiera sammanställning</span>
+                      <span>Kopiera text</span>
                     )}
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setSubmittedStatus(false)}
-                    className="inline-flex items-center justify-center px-5 py-3 border border-white/20 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors"
+                    className="inline-flex items-center justify-center px-5 py-3 border border-white/20 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors"
                   >
-                    Redigera uppgifter
+                    Redigera
                   </button>
                 </div>
               </div>
