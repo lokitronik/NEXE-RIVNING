@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Send, AlertCircle, Check, Mail } from 'lucide-react';
-import { ContactFormData } from '../types';
+import type { ContactFormData } from '../types';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -12,7 +12,9 @@ export const Contact: React.FC = () => {
 
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormData, string>>>({});
   const [submittedStatus, setSubmittedStatus] = useState<boolean>(false);
-  const [copiedSummary, setCopiedSummary] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const sendingRef = useRef(false);
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof ContactFormData, string>> = {};
@@ -36,14 +38,41 @@ export const Contact: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validate()) {
-      return;
+    if (sendingRef.current) return;
+    setSubmitError('');
+    if (!validate()) return;
+
+    sendingRef.current = true;
+    setIsSending(true);
+    try {
+      const response = await fetch('https://formspree.io/f/xkjgrjkb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          message: formData.projectDescription.trim(),
+          subject: 'Ny förfrågan – NEXE RIVNING',
+          source: 'NEXE RIVNING',
+          page: window.location.href,
+        }),
+      });
+      if (!response.ok) {
+        setSubmitError(response.status === 429
+          ? 'Formuläret kan inte ta emot fler förfrågningar just nu. Kontakta oss via kontakt@nexegroup.se.'
+          : 'Förfrågan kunde inte skickas. Försök igen eller mejla kontakt@nexegroup.se.');
+        return;
+      }
+      setSubmittedStatus(true);
+    } catch {
+      setSubmitError('Vi kunde inte bekräfta att förfrågan skickades. Kontrollera din anslutning eller mejla kontakt@nexegroup.se.');
+    } finally {
+      sendingRef.current = false;
+      setIsSending(false);
     }
-    // As per requirement: Do not simulate a successful fake server transmission.
-    // Show clear, honest feedback to the user about their input.
-    setSubmittedStatus(true);
   };
 
   const handleChange = (
@@ -54,13 +83,6 @@ export const Contact: React.FC = () => {
     if (errors[name as keyof ContactFormData]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
-  };
-
-  const handleCopySummary = () => {
-    const summaryText = `Namn: ${formData.name}\nE-post: ${formData.email}\nTelefon: ${formData.phone}\nProjekt: ${formData.projectDescription}`;
-    navigator.clipboard.writeText(summaryText);
-    setCopiedSummary(true);
-    setTimeout(() => setCopiedSummary(false), 3000);
   };
 
   return (
@@ -107,60 +129,30 @@ export const Contact: React.FC = () => {
           {/* Right Column: Clean, Honest Contact Form */}
           <div className="lg:col-span-7 bg-[#001D33] p-7 sm:p-10 rounded-xl border border-white/10 shadow-2xl">
             {submittedStatus ? (
-              <div
-                id="contact-submitted-notice"
-                className="space-y-6"
-                role="status"
-                aria-live="polite"
-              >
+              <div role="status" aria-live="polite" className="space-y-6">
                 <div className="p-4 rounded-lg bg-white/10 border border-white/20">
+                  <Check className="w-7 h-7 text-emerald-400 mb-3" aria-hidden="true" />
                   <h3 className="font-display text-lg font-bold text-white mb-2">
-                    Sammanställning av din förfrågan
+                    Tack för din förfrågan!
                   </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                    Formulärets uppgifter har validerats. Du kan skicka dem direkt till <a href="mailto:kontakt@nexegroup.se" className="text-white underline font-semibold">kontakt@nexegroup.se</a> eller kopiera sammanställningen nedan.
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    Din förfrågan har skickats. Vi återkommer så snart som möjligt.
                   </p>
-                  <div className="bg-black/25 p-4 rounded-md text-xs font-mono text-slate-200 space-y-1.5 border border-white/10">
-                    <div>
-                      <span className="text-slate-400">Namn:</span> {formData.name}
-                    </div>
-                    <div>
-                      <span className="text-slate-400">E-post:</span> {formData.email}
-                    </div>
-                    <div>
-                      <span className="text-slate-400">Telefon:</span> {formData.phone}
-                    </div>
-                    <div>
-                      <span className="text-slate-400">Beskrivning:</span>{' '}
-                      {formData.projectDescription}
-                    </div>
-                  </div>
                 </div>
-
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <a
-                    href={`mailto:kontakt@nexegroup.se?subject=${encodeURIComponent(
-                      `Förfrågan rivning - ${formData.name}`
-                    )}&body=${encodeURIComponent(
-                      `Namn: ${formData.name}\nE-post: ${formData.email}\nTelefon: ${formData.phone}\n\nProjektbeskrivning:\n${formData.projectDescription}`
-                    )}`}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white text-[#002B49] text-xs font-bold uppercase tracking-wider rounded-md hover:bg-slate-100 transition-colors"
-                  >
-                    <Mail className="w-4 h-4" aria-hidden="true" />
-                    <span>Öppna e-post</span>
-                  </a>
-
-                  <button
-                    type="button"
-                    onClick={handleCopySummary}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/15 text-white text-xs font-bold uppercase tracking-wider rounded-md hover:bg-white/20 transition-colors border border-white/20"
-                  >
-                    {copiedSummary ? (
-                      <>
-                        <Check className="w-4 h-4 text-emerald-400" aria-hidden="true" />
-                        <span>Kopierat!</span>
-                      </>
-                    ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData({ name: '', email: '', phone: '', projectDescription: '' });
+                    setErrors({});
+                    setSubmitError('');
+                    setSubmittedStatus(false);
+                  }}
+                  className="inline-flex items-center justify-center px-5 py-3 border border-white/20 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors"
+                >
+                  Skicka en ny förfrågan
+                </button>
+              </div>
+            ) : (
                       <span>Kopiera text</span>
                     )}
                   </button>
@@ -178,9 +170,11 @@ export const Contact: React.FC = () => {
               <form
                 id="inquiry-form"
                 onSubmit={handleSubmit}
+                aria-busy={isSending}
                 noValidate
                 className="space-y-5"
               >
+                <fieldset disabled={isSending} className="space-y-5 min-w-0 border-0 p-0 m-0">
                 {/* Namn */}
                 <div>
                   <label
@@ -300,10 +294,16 @@ export const Contact: React.FC = () => {
                     type="submit"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-white text-[#002B49] hover:bg-slate-100 font-display text-xs font-bold uppercase tracking-wider rounded-md transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                   >
-                    <span>Skicka förfrågan</span>
+                    <span>{isSending ? 'Skickar…' : 'Skicka förfrågan'}</span>
                     <Send className="w-3.5 h-3.5" aria-hidden="true" />
                   </button>
                 </div>
+                </fieldset>
+                {submitError && (
+                  <p role="alert" className="p-4 rounded-md border border-red-400/40 bg-red-400/10 text-sm text-red-200">
+                    {submitError}
+                  </p>
+                )}
               </form>
             )}
           </div>
