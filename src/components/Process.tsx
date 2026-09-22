@@ -176,7 +176,7 @@ export const Process: React.FC = () => {
               ref={sliderRef}
               onMouseDown={() => setIsDragging(true)}
               onTouchStart={() => setIsDragging(true)}
-              className="relative rounded-xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 aspect-4/3 sm:aspect-16/11 select-none cursor-ew-resize group"
+              className="relative rounded-xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 aspect-16/9 select-none cursor-ew-resize group"
             >
               {/* After image (Täckta golv & dammspärr / Tapar) - Base layer */}
               <img
