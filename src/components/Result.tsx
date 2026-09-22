@@ -100,7 +100,7 @@ export const Result: React.FC<ResultProps> = ({ onQuoteClick }) => {
             >
               {/* After image (Ready clean room) - Base layer */}
               <img
-                src={`${import.meta.env.BASE_URL}nexe-cocina-desmontaje-1.png`}
+                src={`${import.meta.env.BASE_URL}nexe-cocina-vacia.png`}
                 alt="NEXE RIVNING"
                 referrerPolicy="no-referrer"
                 className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"

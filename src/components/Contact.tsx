@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, AlertCircle, Check, Mail } from 'lucide-react';
 import type { ContactFormData } from '../types';
 
-export const Contact: React.FC = () => {
+interface ContactProps {
+  prefilledService?: string;
+}
+
+export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -14,6 +18,15 @@ export const Contact: React.FC = () => {
   const [submittedStatus, setSubmittedStatus] = useState<boolean>(false);
   const [isSending, setIsSending] = useState(false);
   const [submitError, setSubmitError] = useState('');
+
+  useEffect(() => {
+    if (prefilledService) {
+      setFormData((prev) => ({
+        ...prev,
+        projectDescription: `Hej! Jag är intresserad av offert för: ${prefilledService}. `,
+      }));
+    }
+  }, [prefilledService]);
 
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof ContactFormData, string>> = {};
