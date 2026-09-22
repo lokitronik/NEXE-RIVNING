@@ -1,19 +1,56 @@
-import React, { useState, useRef } from 'react';
-import { CheckCircle2, Shield, ArrowRight, Sparkles, Layers } from 'lucide-react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { CheckCircle2, Shield, ArrowRight, Sparkles, Layers, SlidersHorizontal } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
 import { ProcessStep } from '../types';
 
 export const Process: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
+  // Before / After protection visualizer state
+  const [sliderPosition, setSliderPosition] = useState<number>(50);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  const imageY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [-30, 30]);
+  const handleMove = useCallback((clientX: number) => {
+    if (!sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPosition(percentage);
+  }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isDragging) return;
+    if (e.touches[0]) {
+      handleMove(e.touches[0].clientX);
+    }
+  }, [isDragging, handleMove]);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging) return;
+    handleMove(e.clientX);
+  }, [isDragging, handleMove]);
+
+  const handleEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleEnd);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('touchend', handleEnd);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleEnd);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleEnd);
+    };
+  }, [isDragging, handleMouseMove, handleTouchMove, handleEnd]);
 
   const commitments = [
     { text: 'Vi skyddar golv, trapphus och gemensamma utrymmen.', tag: 'Täckningsskydd' },
@@ -102,17 +139,92 @@ export const Process: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Protected Corridor Photography */}
+          {/* Right Column: 2-Phase Interactive Corridor Protection Visualizer */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-xl overflow-hidden border border-slate-200/90 shadow-xl bg-slate-100 aspect-4/3 sm:aspect-16/11 group">
-              <motion.div style={{ y: imageY }} className="w-full h-full">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <SlidersHorizontal className="w-3.5 h-3.5 text-[#002B49]" />
+                <span>Dra för att jämföra skyddsåtgärder</span>
+              </span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setSliderPosition(85)}
+                  className={`text-[11px] font-semibold px-2.5 py-1 rounded border transition-colors cursor-pointer ${
+                    sliderPosition > 50
+                      ? 'bg-[#002B49] text-white border-[#002B49]'
+                      : 'bg-white border-slate-200 text-slate-600 hover:text-[#002B49]'
+                  }`}
+                >
+                  Före (utan skydd)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSliderPosition(15)}
+                  className={`text-[11px] font-semibold px-2.5 py-1 rounded border transition-colors cursor-pointer ${
+                    sliderPosition <= 50
+                      ? 'bg-[#002B49] text-white border-[#002B49]'
+                      : 'bg-white border-slate-200 text-slate-600 hover:text-[#002B49]'
+                  }`}
+                >
+                  Efter (med skydd)
+                </button>
+              </div>
+            </div>
+
+            <div
+              ref={sliderRef}
+              onMouseDown={() => setIsDragging(true)}
+              onTouchStart={() => setIsDragging(true)}
+              className="relative rounded-xl overflow-hidden border border-slate-200 shadow-xl bg-slate-100 aspect-4/3 sm:aspect-16/11 select-none cursor-ew-resize group"
+            >
+              {/* After image (Täckta golv & dammspärr / Tapar) - Base layer */}
+              <img
+                src={`${import.meta.env.BASE_URL}tapar.jpg`}
+                alt="Efter skyddstäckning – NEXE RIVNING"
+                referrerPolicy="no-referrer"
+                className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.src.includes('nexe-pasillo-protegido.png')) {
+                    target.src = `${import.meta.env.BASE_URL}nexe-pasillo-protegido.png`;
+                  }
+                }}
+              />
+
+              {/* Before image (Utan skyddstäckning / Sin tapar) - Clipped top layer */}
+              <div
+                className={`absolute inset-0 overflow-hidden pointer-events-none ${
+                  isDragging ? '' : 'transition-all duration-300 ease-out'
+                }`}
+                style={{ width: `${sliderPosition}%` }}
+              >
                 <img
-                  src={`${import.meta.env.BASE_URL}nexe-pasillo-protegido.png`}
-                  alt="NEXE RIVNING"
+                  src={`${import.meta.env.BASE_URL}sin-tapar.png`}
+                  alt="Före skyddstäckning – NEXE RIVNING"
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-103"
+                  className="absolute inset-0 w-full h-full object-cover object-center max-w-none"
+                  style={{ width: sliderRef.current ? `${sliderRef.current.clientWidth}px` : '100%' }}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.src.includes('tapar.jpg') && !target.src.includes('nexe-pasillo-protegido.png')) {
+                      target.src = `${import.meta.env.BASE_URL}tapar.jpg`;
+                    }
+                  }}
                 />
-              </motion.div>
+              </div>
+
+              {/* Draggable Divider Handle */}
+              <div
+                className={`absolute top-0 bottom-0 w-1 bg-white shadow-2xl z-20 pointer-events-none ${
+                  isDragging ? '' : 'transition-all duration-300 ease-out'
+                }`}
+                style={{ left: `${sliderPosition}%` }}
+              >
+                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-[#002B49] text-white border-2 border-white shadow-xl flex items-center justify-center">
+                  <SlidersHorizontal className="w-4 h-4" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
