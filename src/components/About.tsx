@@ -81,7 +81,8 @@ export const About: React.FC<AboutProps> = ({ onQuoteClick }) => {
                 href="https://nexegroup.se"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-700 hover:text-[#002B49] font-semibold underline decoration-slate-300 hover:decoration-[#002B49] underline-offset-2 transition-colors"
+                translate="no"
+                className="notranslate text-slate-700 hover:text-[#002B49] font-semibold underline decoration-slate-300 hover:decoration-[#002B49] underline-offset-2 transition-colors"
               >
                 NEXE GROUP AB
               </a>

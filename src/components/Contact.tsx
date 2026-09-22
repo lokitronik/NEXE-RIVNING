@@ -77,10 +77,10 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
       if (response.ok) {
         setSubmittedStatus(true);
       } else {
-        setSubmitError('Förfrågan kunde inte skickas. Försök igen eller mejla direkt till kontakt@nexegroup.se.');
+        setSubmitError('failed');
       }
     } catch {
-      setSubmitError('Nätverksfel. Kontrollera din anslutning eller mejla kontakt@nexegroup.se.');
+      setSubmitError('network');
     } finally {
       setIsSending(false);
     }
@@ -127,7 +127,8 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
                   <span className="text-slate-400">E-post:</span>
                   <a
                     href="mailto:kontakt@nexegroup.se"
-                    className="text-white hover:underline underline-offset-2 font-medium"
+                    translate="no"
+                    className="notranslate text-white hover:underline underline-offset-2 font-medium"
                   >
                     kontakt@nexegroup.se
                   </a>
@@ -145,7 +146,14 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
                     Tack för din förfrågan!
                   </h3>
                   <p className="text-slate-300 text-sm leading-relaxed">
-                    Din förfrågan har skickats. Vi återkommer så snart som möjligt.
+                    Din förfrågan har skickats. Vi återkommer så snart som möjligt. Vid frågor når du oss på{' '}
+                    <a
+                      href="mailto:kontakt@nexegroup.se"
+                      translate="no"
+                      className="notranslate text-white underline underline-offset-2 font-medium"
+                    >
+                      kontakt@nexegroup.se
+                    </a>.
                   </p>
                 </div>
                 <button
@@ -293,7 +301,29 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
                 </fieldset>
                 {submitError && (
                   <p role="alert" className="p-4 rounded-md border border-red-400/40 bg-red-400/10 text-sm text-red-200">
-                    {submitError}
+                    {submitError === 'network' ? (
+                      <>
+                        Nätverksfel. Kontrollera din anslutning eller mejla{' '}
+                        <a
+                          href="mailto:kontakt@nexegroup.se"
+                          translate="no"
+                          className="notranslate underline underline-offset-2 font-medium text-white"
+                        >
+                          kontakt@nexegroup.se
+                        </a>.
+                      </>
+                    ) : (
+                      <>
+                        Förfrågan kunde inte skickas. Försök igen eller mejla direkt till{' '}
+                        <a
+                          href="mailto:kontakt@nexegroup.se"
+                          translate="no"
+                          className="notranslate underline underline-offset-2 font-medium text-white"
+                        >
+                          kontakt@nexegroup.se
+                        </a>.
+                      </>
+                    )}
                   </p>
                 )}
               </form>

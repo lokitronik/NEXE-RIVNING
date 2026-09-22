@@ -57,7 +57,8 @@ export const Footer: React.FC = () => {
                   href="https://nexegroup.se"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors underline decoration-slate-600 hover:decoration-white underline-offset-2"
+                  translate="no"
+                  className="notranslate inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors underline decoration-slate-600 hover:decoration-white underline-offset-2"
                 >
                   <span>NEXE RIVNING · En del av NEXE GROUP AB</span>
                   <ExternalLink
@@ -69,7 +70,8 @@ export const Footer: React.FC = () => {
               <div>
                 <a
                   href="mailto:kontakt@nexegroup.se"
-                  className="text-slate-300 hover:text-white transition-colors underline decoration-slate-600 hover:decoration-white underline-offset-2"
+                  translate="no"
+                  className="notranslate text-slate-300 hover:text-white transition-colors underline decoration-slate-600 hover:decoration-white underline-offset-2"
                 >
                   kontakt@nexegroup.se
                 </a>
@@ -122,7 +124,8 @@ export const Footer: React.FC = () => {
               href="https://nexegroup.se"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-300 hover:text-white underline decoration-slate-600 underline-offset-2"
+              translate="no"
+              className="notranslate text-slate-300 hover:text-white underline decoration-slate-600 underline-offset-2"
             >
               NEXE GROUP AB
             </a>
