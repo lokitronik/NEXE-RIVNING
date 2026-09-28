@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, ArrowUp } from 'lucide-react';
+import { ExternalLink, ArrowUp, Linkedin, Instagram } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 import { NexeLogo } from './NexeLogo';
 
@@ -76,6 +76,29 @@ export const Footer: React.FC = () => {
                   kontakt@nexegroup.se
                 </a>
               </div>
+            </div>
+
+            {/* Social media channels */}
+            <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3">
+              <span className="text-xs text-slate-400 font-medium">Följ oss:</span>
+              <a
+                href="https://www.linkedin.com/company/nexe-group-ab/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Följ NEXE GROUP AB på LinkedIn"
+                className="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <Linkedin className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a
+                href="https://www.instagram.com/nexegroupab"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Följ NEXE GROUP AB på Instagram"
+                className="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <Instagram className="w-4 h-4" aria-hidden="true" />
+              </a>
             </div>
           </div>
 

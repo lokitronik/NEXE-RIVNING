@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Send, AlertCircle, Check, Mail } from 'lucide-react';
+import { Send, AlertCircle, Check, Mail, Linkedin, Instagram } from 'lucide-react';
 import type { ContactFormData } from '../types';
 
 interface ContactProps {
@@ -121,7 +121,7 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
               <p className="leading-relaxed">
                 Fyll i formuläret med dina uppgifter och en kort beskrivning av ditt projekt så återkommer vi så snart som möjligt.
               </p>
-              <div className="pt-3 border-t border-white/10 text-xs">
+              <div className="pt-3 border-t border-white/10 text-xs space-y-3">
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
                   <span className="text-slate-400">E-post:</span>
@@ -132,6 +132,29 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
                   >
                     kontakt@nexegroup.se
                   </a>
+                </div>
+                <div className="flex items-center gap-3 pt-1 border-t border-white/5">
+                  <span className="text-slate-400">Följ oss:</span>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href="https://www.linkedin.com/company/nexe-group-ab/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Följ NEXE GROUP AB på LinkedIn"
+                      className="p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
+                      <Linkedin className="w-4 h-4" aria-hidden="true" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/nexegroupab"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Följ NEXE GROUP AB på Instagram"
+                      className="p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    >
+                      <Instagram className="w-4 h-4" aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowRight, Phone } from 'lucide-react';
+import { Menu, X, ArrowRight, Phone, Linkedin, Instagram } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { NexeLogo } from './NexeLogo';
 
@@ -133,7 +133,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
           </nav>
 
           {/* Header Action Button (visible on md and up) */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+            <div className="flex items-center gap-0.5 pr-2 border-r border-slate-200">
+              <a
+                href="https://www.linkedin.com/company/nexe-group-ab/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Följ NEXE GROUP AB på LinkedIn"
+                className="p-1.5 text-slate-500 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+              >
+                <Linkedin className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a
+                href="https://www.instagram.com/nexegroupab"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Följ NEXE GROUP AB på Instagram"
+                className="p-1.5 text-slate-500 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+              >
+                <Instagram className="w-4 h-4" aria-hidden="true" />
+              </a>
+            </div>
+
             <motion.button
               id="header-quote-btn"
               type="button"
@@ -204,7 +225,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
                 );
               })}
             </nav>
-            <div className="pt-2 border-t border-slate-100">
+            <div className="pt-2 border-t border-slate-100 space-y-3">
               <motion.button
                 id="mobile-quote-btn"
                 type="button"
@@ -218,6 +239,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
                 <span>Begär en offert</span>
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </motion.button>
+
+              <div className="flex items-center justify-center gap-3 pt-1 text-slate-500">
+                <span className="text-xs text-slate-400">Följ oss:</span>
+                <a
+                  href="https://www.linkedin.com/company/nexe-group-ab/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Följ NEXE GROUP AB på LinkedIn"
+                  className="p-2 text-slate-600 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+                >
+                  <Linkedin className="w-4 h-4" aria-hidden="true" />
+                </a>
+                <a
+                  href="https://www.instagram.com/nexegroupab"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Följ NEXE GROUP AB på Instagram"
+                  className="p-2 text-slate-600 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+                >
+                  <Instagram className="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
