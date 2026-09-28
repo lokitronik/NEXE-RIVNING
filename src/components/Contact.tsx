@@ -140,19 +140,23 @@ export const Contact: React.FC<ContactProps> = ({ prefilledService }) => {
                       href="https://www.linkedin.com/company/nexe-group-ab/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="Följ NEXE GROUP AB på LinkedIn"
-                      className="p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      className="notranslate inline-flex items-center justify-center p-2 rounded-full border border-white/10 bg-white/5 hover:bg-[#0A66C2]/20 hover:border-[#0A66C2]/50 text-slate-300 hover:text-[#0A66C2] transition-all duration-200 shadow-xs hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A66C2]"
+                      translate="no"
+                      aria-label="Besök NEXE GROUP AB på LinkedIn"
+                      title="LinkedIn"
                     >
-                      <Linkedin className="w-4 h-4" aria-hidden="true" />
+                      <Linkedin className="w-4 h-4 shrink-0" />
                     </a>
                     <a
                       href="https://www.instagram.com/nexegroupab"
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="Följ NEXE GROUP AB på Instagram"
-                      className="p-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      className="notranslate inline-flex items-center justify-center p-2 rounded-full border border-white/10 bg-white/5 hover:bg-pink-500/20 hover:border-pink-500/50 text-slate-300 hover:text-pink-400 transition-all duration-200 shadow-xs hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
+                      translate="no"
+                      aria-label="Besök NEXE GROUP AB på Instagram"
+                      title="Instagram"
                     >
-                      <Instagram className="w-4 h-4" aria-hidden="true" />
+                      <Instagram className="w-4 h-4 shrink-0" />
                     </a>
                   </div>
                 </div>

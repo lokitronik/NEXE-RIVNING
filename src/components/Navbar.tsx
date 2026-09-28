@@ -134,24 +134,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
 
           {/* Header Action Button (visible on md and up) */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            <div className="flex items-center gap-0.5 pr-2 border-r border-slate-200">
+            {/* Social Profiles: LinkedIn & Instagram */}
+            <div className="inline-flex items-center gap-1.5 ml-0.5">
               <a
                 href="https://www.linkedin.com/company/nexe-group-ab/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Följ NEXE GROUP AB på LinkedIn"
-                className="p-1.5 text-slate-500 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+                className="notranslate inline-flex items-center justify-center p-2 rounded-full border border-slate-200/90 bg-slate-50/90 hover:bg-[#0A66C2]/10 hover:border-[#0A66C2]/40 text-slate-600 hover:text-[#0A66C2] transition-all duration-200 shadow-xs hover:shadow-sm"
+                translate="no"
+                aria-label="Besök NEXE GROUP AB på LinkedIn"
+                title="LinkedIn"
               >
-                <Linkedin className="w-4 h-4" aria-hidden="true" />
+                <Linkedin className="w-4 h-4 shrink-0" />
               </a>
+
               <a
                 href="https://www.instagram.com/nexegroupab"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Följ NEXE GROUP AB på Instagram"
-                className="p-1.5 text-slate-500 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+                className="notranslate inline-flex items-center justify-center p-2 rounded-full border border-slate-200/90 bg-slate-50/90 hover:bg-pink-500/10 hover:border-pink-500/40 text-slate-600 hover:text-pink-600 transition-all duration-200 shadow-xs hover:shadow-sm"
+                translate="no"
+                aria-label="Besök NEXE GROUP AB på Instagram"
+                title="Instagram"
               >
-                <Instagram className="w-4 h-4" aria-hidden="true" />
+                <Instagram className="w-4 h-4 shrink-0" />
               </a>
             </div>
 
@@ -240,25 +246,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onQuoteClick }) => {
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </motion.button>
 
-              <div className="flex items-center justify-center gap-3 pt-1 text-slate-500">
-                <span className="text-xs text-slate-400">Följ oss:</span>
+              <div className="flex items-center justify-center gap-2 pt-2 border-t border-slate-100">
+                <span className="text-xs text-slate-400 mr-1">Följ oss:</span>
                 <a
                   href="https://www.linkedin.com/company/nexe-group-ab/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Följ NEXE GROUP AB på LinkedIn"
-                  className="p-2 text-slate-600 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+                  className="notranslate inline-flex items-center justify-center p-2 rounded-full border border-slate-200/90 bg-slate-50/90 hover:bg-[#0A66C2]/10 hover:border-[#0A66C2]/40 text-slate-600 hover:text-[#0A66C2] transition-all duration-200 shadow-xs hover:shadow-sm"
+                  translate="no"
+                  aria-label="Besök NEXE GROUP AB på LinkedIn"
+                  title="LinkedIn"
                 >
-                  <Linkedin className="w-4 h-4" aria-hidden="true" />
+                  <Linkedin className="w-4 h-4 shrink-0" />
                 </a>
+
                 <a
                   href="https://www.instagram.com/nexegroupab"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Följ NEXE GROUP AB på Instagram"
-                  className="p-2 text-slate-600 hover:text-[#002B49] hover:bg-slate-100 rounded-md transition-colors"
+                  className="notranslate inline-flex items-center justify-center p-2 rounded-full border border-slate-200/90 bg-slate-50/90 hover:bg-pink-500/10 hover:border-pink-500/40 text-slate-600 hover:text-pink-600 transition-all duration-200 shadow-xs hover:shadow-sm"
+                  translate="no"
+                  aria-label="Besök NEXE GROUP AB på Instagram"
+                  title="Instagram"
                 >
-                  <Instagram className="w-4 h-4" aria-hidden="true" />
+                  <Instagram className="w-4 h-4 shrink-0" />
                 </a>
               </div>
             </div>
