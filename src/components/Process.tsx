@@ -53,7 +53,7 @@ export const Process: React.FC = () => {
   }, [isDragging, handleMouseMove, handleTouchMove, handleEnd]);
 
   const commitments = [
-    { text: 'Vi skyddar golv, trapphus och gemensamma utrymmen.', tag: 'Täckningsskydd' },
+    { text: 'Vi täcker och skyddar golv, trapphus och gemensamma utrymmen före och under arbetet.', tag: 'Täckningsskydd' },
     { text: 'Vi arbetar på ett kontrollerat och organiserat sätt.', tag: 'Metodiskt' },
     { text: 'Vi vidtar åtgärder för att begränsa damm och buller.', tag: 'Dammspärr' },
     { text: 'Vi respekterar överenskomna arbetstider och tar hänsyn till omgivningen.', tag: 'Grannhänsyn' },
